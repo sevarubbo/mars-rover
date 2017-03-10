@@ -19,21 +19,18 @@ module.exports = {
         modules: [path.resolve(__dirname, "app"), "node_modules"],
     },
     module: {
-
-        rules: [
-        {
-            test: /\.js$/, // include .js files
-            exclude: /node_modules/, // exclude any and all files in the node_modules folder,
-            enforce: "pre",
-            loader: "jshint-loader"
-        }
-      ],
         loaders: [
             {
-            test: /\.js$/,
+                test: /\.js$/,
+                exclude: /node_modules/,
+                enforce: "pre",
+                loader: "jshint-loader"
+            },
+            {
+                test: /\.js$/,
                 loader: "babel-loader",
                 query: {
-                  presets: ["es2015"]
+                    presets: ["es2015"]
                 }
             },
             {
