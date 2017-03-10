@@ -1,0 +1,16 @@
+body {
+    font-family: "Arial", sans-serif;
+    font-size: 14px;
+    color: #333;
+    margin: 0;
+}
+
+@mixin mobile() {
+    @media (max-width: 500px)
+        {@content;}
+}
+
+@mixin desktop() {
+    @media (min-width: 501px)
+        {@content;}
+}
