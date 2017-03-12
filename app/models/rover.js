@@ -52,6 +52,9 @@ export default Em.Object.extend({
 
 
     /**
+     * An object that should handle a queue of action.
+     * Each action takes time and should be performed one after another.
+     *
      * @property {Em.Object}
      */
     actionQueue: Em.Object.extend({
@@ -64,6 +67,7 @@ export default Em.Object.extend({
 
 
         /**
+         * Add an action to the queue. When an action is resolved it should call the next action.
          *
          * @param {Function} action
          */
@@ -140,12 +144,16 @@ export default Em.Object.extend({
     },
 
 
+    /**
+     *
+     */
     stop () {
         this.get("actionQueue").clear();
     },
 
 
     /**
+     * Changes the rover's coordinates gradually
      *
      * @return {Promise}
      */
@@ -168,12 +176,14 @@ export default Em.Object.extend({
                     positionY: this.get("positionY") + (targetPositionY - positionY) / 20,
                 });
 
-                if (Math.abs(targetPositionX - this.get("positionX")) < 0.1 && Math.abs(targetPositionY - this.get("positionY")) < 0.1) {
+                if (
+                    Math.abs(targetPositionX - this.get("positionX")) < 0.1 &&
+                    Math.abs(targetPositionY - this.get("positionY")) < 0.1
+                ) {
                     this.setProperties({
                         positionX: targetPositionX,
                         positionY: targetPositionY,
                     });
-
                     clearInterval(i);
                     resolve();
                 }
@@ -186,6 +196,7 @@ export default Em.Object.extend({
 
 
     /**
+     * Changes the rover's angle gradually
      *
      * @return {Promise}
      */
@@ -210,6 +221,7 @@ export default Em.Object.extend({
 
 
     /**
+     * Changes the rover's angle gradually
      *
      * @return {Promise}
      */

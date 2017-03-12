@@ -46,7 +46,7 @@ export default Em.Controller.extend({
      */
 
     /**
-     *
+     * Check if the rover is within the plateau
      */
     onRoverPositionChange: function () {
 

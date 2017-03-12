@@ -2,7 +2,7 @@
     {{input
         class=(concat b "__form__input")
         value=actionSequence
-        pattern="[LRM]*"
+        pattern="[LRMlrm]*"
         disabled=(if rover.isBusy true false)
     }}
     <button class="{{b}}__form__submit-button" type="submit" disabled={{if rover.isBusy true false}}>Go</button>

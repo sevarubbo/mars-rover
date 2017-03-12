@@ -47,7 +47,7 @@ export default BaseComponent.extend({
 
             this.get("actionSequence").split("").forEach(code => {
 
-                switch (code) {
+                switch (code.toUpperCase()) {
                     case "L": {
                         rover.rotateLeft();
                         break;
