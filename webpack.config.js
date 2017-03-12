@@ -42,9 +42,14 @@ module.exports = {
                 loader: "./webpack-loaders/inject-templates-loader!./webpack-loaders/module-loader"
             },
             {
+                test: /\.(png|svg|jpg|jpeg|gif)$/,
+                enforce: "pre",
+                loader: "file-loader?name=images/[hash].[ext]"
+            },
+            {
                 test: /app\/styles\.scss$/,
                 use: ExtractTextPlugin.extract({
-                    use: "css-loader?minimize!sass-loader!./webpack-loaders/inject-styles-loader"
+                    use: "css-loader?minimize!resolve-url-loader!sass-loader?sourceMap!./webpack-loaders/inject-styles-loader"
                 })
             }
         ]
