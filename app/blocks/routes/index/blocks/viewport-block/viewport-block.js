@@ -20,6 +20,13 @@ export default BaseComponent.extend({
     rover: null,
 
 
+    /**
+     * @property {App.Plateau}
+     * @readonly
+     */
+    plateau: null,
+
+
 
     /**
      * Properties

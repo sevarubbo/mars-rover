@@ -1,5 +1,5 @@
 <form {{action "submitSequence" on="submit"}}>
-{{input value=actionSequence}}
+    {{input value=actionSequence pattern="[LRM]*"}}
     <button type="submit">Go</button>
 </form>
 

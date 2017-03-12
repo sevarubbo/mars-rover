@@ -20,6 +20,12 @@ export default BaseComponent.extend({
      */
     rover: null,
 
+    /**
+     * @property {App.Plateau}
+     * @readonly
+     */
+    plateau: null,
+
 
     /**
      * @property {Number}
@@ -48,6 +54,6 @@ export default BaseComponent.extend({
             transform: `translate(${x}px, ${y}px) rotate(${angle}deg)`
         });
 
-    }.observes("rover.positionX", "rover.positionY", "rover.angle")
+    }.observes("rover.positionX", "rover.positionY", "rover.angle").on("didInsertElement")
 
 });
