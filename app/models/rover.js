@@ -41,7 +41,7 @@ export default Em.Object.extend({
      */
     normalizedAngle: function () {
         return (this.get("angle") + 360) % 360;
-    }.property(),
+    }.property("angle"),
 
 
     /**
@@ -52,12 +52,21 @@ export default Em.Object.extend({
 
 
     /**
-     *
+     * @property {Em.Object}
      */
     actionQueue: Em.Object.extend({
 
+        /**
+         * @property {Function[]}
+         * @readonly
+         */
         queue: [],
 
+
+        /**
+         *
+         * @param {Function} action
+         */
         add (action) {
 
             const
@@ -130,23 +139,26 @@ export default Em.Object.extend({
             targetPositionY = positionY + Math.round(stepLength * Math.sin(angleRadians));
 
         return new Em.RSVP.Promise(resolve => {
-            (function move () {
+
+            const i = setInterval(() => {
 
                 this.setProperties({
                     positionX: this.get("positionX") + (targetPositionX - positionX) / 10,
                     positionY: this.get("positionY") + (targetPositionY - positionY) / 10,
                 });
 
-                if (Math.abs(targetPositionX - this.get("positionX")) > 0.1 || Math.abs(targetPositionY - this.get("positionY")) > 0.1) {
-                    Em.run.later(this, move, 30);
-                } else {
+                if (Math.abs(targetPositionX - this.get("positionX")) < 0.1 && Math.abs(targetPositionY - this.get("positionY")) < 0.1) {
                     this.setProperties({
                         positionX: targetPositionX,
                         positionY: targetPositionY,
                     });
+
+                    clearInterval(i);
                     resolve();
                 }
-            }).call(this);
+
+            }, 30);
+
         });
 
     },
@@ -158,7 +170,7 @@ export default Em.Object.extend({
      */
     _rotateLeft () {
 
-        const targetAngle = this.get("angle") - 45;
+        const targetAngle = this.get("angle") - 90;
 
         return new Em.RSVP.Promise(resolve => {
             (function rotate () {
@@ -181,18 +193,19 @@ export default Em.Object.extend({
      */
     _rotateRight () {
 
-        const targetAngle = this.get("angle") + 45;
+        const targetAngle = this.get("angle") + 90;
 
         return new Em.RSVP.Promise(resolve => {
-            (function rotate () {
+
+            const i = setInterval(() => {
                 this.set("angle", this.get("angle") + 3);
-                if (this.get("angle") < targetAngle) {
-                    Em.run.later(this, rotate, 30);
-                } else {
+                if (this.get("angle") >= targetAngle) {
                     this.set("angle", targetAngle);
+                    clearInterval(i);
                     resolve();
                 }
-            }).call(this);
+            }, 30);
+
         });
 
     },

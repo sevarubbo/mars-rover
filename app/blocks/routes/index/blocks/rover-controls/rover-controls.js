@@ -23,6 +23,17 @@ export default BaseComponent.extend({
 
 
     /**
+     * Properties
+     */
+
+    /**
+     * @property {String}
+     */
+    actionSequence: "LLMRMRMMMLMR",
+
+
+
+    /**
      * Actions
      */
     actions: {
@@ -48,6 +59,34 @@ export default BaseComponent.extend({
          */
         move () {
             this.get("rover").move();
+        },
+
+
+        /**
+         *
+         */
+        submitSequence () {
+
+            const rover = this.get("rover");
+
+            this.get("actionSequence").split("").forEach(code => {
+
+                switch (code) {
+                    case "L": {
+                        rover.rotateLeft();
+                        break;
+                    }
+                    case "R": {
+                        rover.rotateRight();
+                        break;
+                    }
+                    case "M": {
+                        rover.move();
+                        break;
+                    }
+                }
+
+            });
         }
 
     }
