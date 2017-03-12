@@ -28,7 +28,7 @@ export default Em.Component.extend({
      * @readonly
      */
     b: function () {
-        return `b-${this.get("name")}`
+        return `b-${this.get("name")}`;
     }.property("name")
 
 });

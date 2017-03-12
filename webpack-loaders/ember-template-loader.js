@@ -21,10 +21,15 @@ module.exports = function (content) {
     if (/^(blocks|common)/.test(moduleDir)) {
         templateName = `components/${moduleName}`;
     } else {
-        templateName = templatePath.replace("blocks/routes/", "").replace("routes/", "").split("/").slice(0, -1).join("/");
+        templateName = templatePath
+            .replace("blocks/routes/", "")
+            .replace("routes/", "")
+            .split("/")
+            .slice(0, -1)
+            .join("/");
     }
 
-    processedTemplate = templateTree.processString(content, templateName).replace(/^export default Ember\./, 'Ember.');
+    processedTemplate = templateTree.processString(content, templateName).replace(/^export default Ember\./, "Ember.");
 
     return `Ember.TEMPLATES["${templateName}"] = ${processedTemplate}`;
 };
