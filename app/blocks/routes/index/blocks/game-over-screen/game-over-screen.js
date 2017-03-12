@@ -5,5 +5,9 @@
 import BaseComponent from "base/component";
 
 export default BaseComponent.extend({
-    name: "game-over-screen"
+
+    name: "game-over-screen",
+
+    tagName: "section"
+
 });

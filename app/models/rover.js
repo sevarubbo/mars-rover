@@ -78,7 +78,7 @@ export default Em.Object.extend({
                             if (next) {
                                 next.action();
                             }
-                            queue.shift();
+                            queue.shiftObject();
                         });
                     }
                 };
@@ -100,6 +100,14 @@ export default Em.Object.extend({
         }
 
     }).create(),
+
+
+    /**
+     * @property
+     */
+    isBusy: function () {
+        return !!this.get("actionQueue.queue.length");
+    }.property("actionQueue.queue.length"),
 
 
 

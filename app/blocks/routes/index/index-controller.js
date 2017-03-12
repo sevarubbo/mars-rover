@@ -17,7 +17,7 @@ export default Em.Controller.extend({
      */
     rover: Rover.create({
         positionX: 2,
-        positionY: 3
+        positionY: 4
     }),
 
 
@@ -50,11 +50,9 @@ export default Em.Controller.extend({
      */
     onRoverPositionChange: function () {
 
-        const
-            rover = this.get("rover"),
-            isOnPlateau = this.get("plateau").containsPoint(rover.get("positionX"), rover.get("positionY"));
+        const rover = this.get("rover");
 
-        if (!isOnPlateau) {
+        if (!this.get("plateau").containsPoint(rover.get("positionX"), rover.get("positionY"))) {
             rover.stop();
             this.set("isGameOver", true);
         }
@@ -76,8 +74,8 @@ export default Em.Controller.extend({
             this.set("isGameOver", false);
 
             this.get("rover").setProperties({
-                positionX: 1,
-                positionY: 2,
+                positionX: 2,
+                positionY: 3,
                 angle: 0
             });
 

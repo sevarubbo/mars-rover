@@ -1,8 +1,9 @@
-<form {{action "submitSequence" on="submit"}}>
-    {{input value=actionSequence pattern="[LRM]*"}}
-    <button type="submit">Go</button>
+<form class="{{b}}__form" {{action "submitSequence" on="submit"}}>
+    {{input
+        class=(concat b "__form__input")
+        value=actionSequence
+        pattern="[LRM]*"
+        disabled=(if rover.isBusy true false)
+    }}
+    <button class="{{b}}__form__submit-button" type="submit" disabled={{if rover.isBusy true false}}>Go</button>
 </form>
-
-<button {{action "rotateLeft"}}>⃔</button>
-<button {{action "rotateRight"}}>⃕</button>
-<button {{action "move"}}>→</button>

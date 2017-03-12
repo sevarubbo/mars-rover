@@ -1,10 +1,13 @@
 .b-viewport-block {
-    outline: 1px solid red;
+    border: 1px solid #c0c0c0;
     overflow: hidden;
     position: relative;
     font-size: 10vw;
+    box-sizing: border-box;
+    background: #f1f1f1;
 
     @include desktop() {
         font-size: 50px;
+        margin: 0 auto;
     }
 }

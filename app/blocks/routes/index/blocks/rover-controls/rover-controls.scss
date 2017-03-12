@@ -1,0 +1,47 @@
+.b-rover-controls {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+
+    @include mobile() {
+        padding: 10px 0;
+    }
+
+    &__form {
+        flex-grow: 1;
+        display: flex;
+        padding: 0 10px;
+
+        @include desktop() {
+            max-width: 500px;
+        }
+
+        &__input {
+            font-size: 24px;
+            border: 1px solid #ddd;
+            border-right: none;
+            border-radius: 2px 0 0 2px;
+            padding: 0 10px;
+            flex-grow: 1;
+
+            @include mobile() {
+                font-size: 18px;
+            }
+        }
+
+        &__submit-button {
+            font-size: 20px;
+            outline: none;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            border-radius: 0 2px 2px 0;
+            background: #fff;
+            padding: 15px 20px;
+
+            @include mobile() {
+                padding: 10px 15px;
+                font-size: 18px;
+            }
+        }
+    }
+}

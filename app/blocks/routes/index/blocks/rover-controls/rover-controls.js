@@ -41,30 +41,6 @@ export default BaseComponent.extend({
         /**
          *
          */
-        rotateLeft () {
-            this.get("rover").rotateLeft();
-        },
-
-
-        /**
-         *
-         */
-        rotateRight () {
-            this.get("rover").rotateRight();
-        },
-
-
-        /**
-         *
-         */
-        move () {
-            this.get("rover").move();
-        },
-
-
-        /**
-         *
-         */
         submitSequence () {
 
             const rover = this.get("rover");
