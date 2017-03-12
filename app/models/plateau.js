@@ -51,7 +51,7 @@ export default Em.Object.extend({
             iy = this.get("positionY"),
             ay = iy + this.get("height");
 
-        return ix <= x && ax >= x && iy <= y && ay >= y;
+        return ix <= x && ax > x && iy <= y && ay > y;
 
     }
 

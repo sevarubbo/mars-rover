@@ -21,13 +21,6 @@ export default BaseComponent.extend({
     plateau: null,
 
 
-    /**
-     * @property {Number}
-     * @readonly
-     */
-    cellSize: null,
-
-
 
     /**
      * Hooks
@@ -39,14 +32,13 @@ export default BaseComponent.extend({
     onInsert: function () {
 
         const
-            plateau = this.get("plateau"),
-            cellSize = this.get("cellSize");
+            plateau = this.get("plateau");
 
         this.$().css({
-            top: plateau.get("positionY") * cellSize,
-            left: plateau.get("positionX") * cellSize,
-            width: plateau.get("width") * cellSize,
-            height: plateau.get("height") * cellSize
+            top: `${plateau.get("positionY")}em`,
+            left: `${plateau.get("positionX")}em`,
+            width: `${plateau.get("width")}em`,
+            height: `${plateau.get("height")}em`
         });
 
     }.on("didInsertElement")

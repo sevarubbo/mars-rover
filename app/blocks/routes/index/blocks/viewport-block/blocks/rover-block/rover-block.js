@@ -27,13 +27,6 @@ export default BaseComponent.extend({
     plateau: null,
 
 
-    /**
-     * @property {Number}
-     * @readonly
-     */
-    cellSize: null,
-
-
 
     /**
      * Hooks
@@ -45,15 +38,14 @@ export default BaseComponent.extend({
     onPositionChange: function () {
 
         const
-            cellSize = this.get("cellSize"),
-            x = this.get("rover.positionX") * cellSize,
-            y = this.get("rover.positionY") * cellSize,
+            x = this.get("rover.positionX"),
+            y = this.get("rover.positionY"),
             angle = this.get("rover.angle");
 
         this.$().css({
-            transform: `translate(${x}px, ${y}px) rotate(${angle}deg)`
+            transform: `translate(${x}em, ${y}em) rotate(${angle}deg)`
         });
 
-    }.observes("rover.positionX", "rover.positionY", "rover.angle").on("didInsertElement")
+    }.observes("rover.positionX", "rover.positionY", "rover.angle").on("didInsertElement"),
 
 });

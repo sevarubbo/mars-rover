@@ -16,8 +16,8 @@ export default Em.Controller.extend({
      * @readonly
      */
     rover: Rover.create({
-        positionX: 1,
-        positionY: 2
+        positionX: 2,
+        positionY: 3
     }),
 
 
@@ -28,8 +28,8 @@ export default Em.Controller.extend({
     plateau: Plateau.create({
         positionX: 1,
         positionY: 2,
-        width: 5,
-        height: 3
+        width: 6,
+        height: 5
     }),
 
 

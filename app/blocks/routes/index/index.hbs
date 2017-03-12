@@ -3,16 +3,16 @@
     {{rover-controls
         rover=rover
     }}
+
     {{viewport-block
         rover=rover
         plateau=plateau
     }}
 
-    x: {{rover.positionX}}, y: {{rover.positionY}}, angle: {{rover.normalizedAngle}}, rad: {{rover.angleRadians}}
-
 {{else}}
 
-    Game over
-    <button {{action "restart"}}>Restart</button>
+    {{game-over-screen
+        restart=(action "restart")
+    }}
 
 {{/unless}}

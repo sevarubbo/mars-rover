@@ -36,6 +36,31 @@ export default BaseComponent.extend({
      * @property {Number}
      * @readonly
      */
-    cellSize: 50,
+    width: 10,
+
+
+    /**
+     * @property {Number}
+     * @readonly
+     */
+    height: 10,
+
+
+
+    /**
+     * Hooks
+     */
+
+    /**
+     *
+     */
+    onInsert: function () {
+
+        this.$().css({
+            width: `${this.get("width")}em`,
+            height: `${this.get("height")}em`
+        });
+
+    }.on("didInsertElement")
 
 });
