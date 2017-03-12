@@ -23,18 +23,12 @@ export default Em.Object.extend({
     /**
      * @property {Number} - angle in degrees. "0" means the rover is oriented north
      */
-    angle: Em.computed({
-        get () {
-            return 0;
-        },
-        set (key, value) {
-            return (value + 360) % 360;
-        }
-    }),
+    angle: 0,
 
 
     /**
      * @property {Number}
+     * @readonly
      */
     angleRadians: function () {
         return this.get("angle") * Math.PI / 180;
@@ -45,7 +39,50 @@ export default Em.Object.extend({
      * @property {Number}
      * @readonly
      */
-    speed: 1,
+    normalizedAngle: function () {
+        return (this.get("angle") + 360) % 360;
+    }.property(),
+
+
+    /**
+     * @property {Number}
+     * @readonly
+     */
+    stepLength: 1,
+
+
+    /**
+     *
+     */
+    actionQueue: Em.Object.extend({
+
+        queue: [],
+
+        add (action) {
+
+            const
+                queue = this.get("queue"),
+                item = {
+                    action () {
+                        action().then(() => {
+                            const next = queue.objectAt(queue.indexOf(item) + 1);
+                            if (next) {
+                                next.action();
+                            }
+                            queue.shift();
+                        });
+                    }
+                };
+
+            if (!queue.get("length")) {
+                item.action();
+            }
+
+            queue.pushObject(item);
+
+        }
+
+    }).create(),
 
 
 
@@ -55,17 +92,18 @@ export default Em.Object.extend({
 
     /**
      *
+     * @return {Promise}
      */
     rotateLeft () {
-        this.set("angle", this.get("angle") - 90);
+        this.get("actionQueue").add(this._rotateLeft.bind(this));
     },
-
 
     /**
      *
+     * @return {Promise}
      */
     rotateRight () {
-        this.set("angle", this.get("angle") + 90);
+        this.get("actionQueue").add(this._rotateRight.bind(this));
     },
 
 
@@ -73,18 +111,90 @@ export default Em.Object.extend({
      *
      */
     move () {
+        this.get("actionQueue").add(this._move.bind(this));
+    },
+
+
+    /**
+     *
+     * @return {Promise}
+     */
+    _move () {
 
         const
-            speed = this.get("speed"),
+            stepLength = this.get("stepLength"),
             angleRadians = this.get("angleRadians"),
-            moveX = Math.round(speed * Math.cos(angleRadians)),
-            moveY = Math.round(speed * Math.sin(angleRadians));
+            positionX = this.get("positionX"),
+            positionY = this.get("positionY"),
+            targetPositionX = positionX + Math.round(stepLength * Math.cos(angleRadians)),
+            targetPositionY = positionY + Math.round(stepLength * Math.sin(angleRadians));
 
-        this.setProperties({
-            positionX: this.get("positionX") + moveX,
-            positionY: this.get("positionY") + moveY,
+        return new Em.RSVP.Promise(resolve => {
+            (function move () {
+
+                this.setProperties({
+                    positionX: this.get("positionX") + (targetPositionX - positionX) / 10,
+                    positionY: this.get("positionY") + (targetPositionY - positionY) / 10,
+                });
+
+                if (Math.abs(targetPositionX - this.get("positionX")) > 0.1 || Math.abs(targetPositionY - this.get("positionY")) > 0.1) {
+                    Em.run.later(this, move, 30);
+                } else {
+                    this.setProperties({
+                        positionX: targetPositionX,
+                        positionY: targetPositionY,
+                    });
+                    resolve();
+                }
+            }).call(this);
         });
 
-    }
+    },
+
+
+    /**
+     *
+     * @return {Promise}
+     */
+    _rotateLeft () {
+
+        const targetAngle = this.get("angle") - 45;
+
+        return new Em.RSVP.Promise(resolve => {
+            (function rotate () {
+                this.set("angle", this.get("angle") - 3);
+                if (this.get("angle") > targetAngle) {
+                    Em.run.later(this, rotate, 30);
+                } else {
+                    this.set("angle", targetAngle);
+                    resolve();
+                }
+            }).call(this);
+        });
+
+    },
+
+
+    /**
+     *
+     * @return {Promise}
+     */
+    _rotateRight () {
+
+        const targetAngle = this.get("angle") + 45;
+
+        return new Em.RSVP.Promise(resolve => {
+            (function rotate () {
+                this.set("angle", this.get("angle") + 3);
+                if (this.get("angle") < targetAngle) {
+                    Em.run.later(this, rotate, 30);
+                } else {
+                    this.set("angle", targetAngle);
+                    resolve();
+                }
+            }).call(this);
+        });
+
+    },
 
 });
