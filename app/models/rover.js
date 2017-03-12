@@ -21,7 +21,7 @@ export default Em.Object.extend({
 
 
     /**
-     * @property {Number} - angle in degrees. "0" means the rover is oriented north
+     * @property {Number} - angle in degrees. "0" means the rover is oriented East
      */
     angle: 0,
 
@@ -45,7 +45,7 @@ export default Em.Object.extend({
 
 
     /**
-     * @property {Number}
+     * @property {Number} - Number of cells to move when rover receives "Move" command
      * @readonly
      */
     stepLength: 1,
@@ -89,6 +89,14 @@ export default Em.Object.extend({
 
             queue.pushObject(item);
 
+        },
+
+
+        /**
+         *
+         */
+        clear () {
+            this.get("queue").clear();
         }
 
     }).create(),
@@ -121,6 +129,11 @@ export default Em.Object.extend({
      */
     move () {
         this.get("actionQueue").add(this._move.bind(this));
+    },
+
+
+    stop () {
+        this.get("actionQueue").clear();
     },
 
 
